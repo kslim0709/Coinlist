@@ -6,3 +6,6 @@
   - 라이브러리
     : Jetpack AAC ( ViewModel, LiveData, Room )
     : Retrofit, RxKotlin, RxJava, Glide, JWT, MPAndrpidChart
+  - API
+    : UPBIT API ( 코인 목록, 차트 조회 )
+    : CoinMarketCap API (코인심볼설명 )
