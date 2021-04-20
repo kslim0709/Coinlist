@@ -1,14 +1,13 @@
 package com.kslim.coinlist.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +18,9 @@ import com.kslim.coinlist.ui.adapter.CoinListAdapter
 import com.kslim.coinlist.ui.viewmodel.SharedViewModel
 
 
-class CoinListFragment : Fragment() {
+class CoinListFragment : Fragment(), View.OnClickListener {
 
+    @Suppress("UNCHECKED_CAST")
     private val sharedViewModel: SharedViewModel by activityViewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T = SharedViewModel() as T
@@ -31,11 +31,6 @@ class CoinListFragment : Fragment() {
 
     private lateinit var coinListAdapter: CoinListAdapter
     private lateinit var coinRecyclerView: RecyclerView
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +56,46 @@ class CoinListFragment : Fragment() {
 
         coinRecyclerView.adapter = coinListAdapter
 
-        sharedViewModel.editText.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.editText.observe(viewLifecycleOwner, {
             coinListAdapter.searchFilterList(it)
         })
 
+        coinListBinding.icItemCoinHead.findViewById<TextView>(R.id.tv_coin_name)
+            .setOnClickListener(this)
+        coinListBinding.icItemCoinHead.findViewById<TextView>(R.id.tv_cur_price)
+            .setOnClickListener(this)
+        coinListBinding.icItemCoinHead.findViewById<TextView>(R.id.tv_transaction_amount)
+            .setOnClickListener(this)
+
+    }
+
+    override fun onClick(v: View?) {
+
+        if (v?.id == R.id.tv_cur_price) {
+            if (v.tag.equals("false")) {
+                v.tag = "true"
+                coinListAdapter.sortByCoinPrice(false)
+            } else {
+                v.tag = "false"
+                coinListAdapter.sortByCoinPrice(true)
+            }
+        } else if (v?.id == R.id.tv_coin_name) {
+            if (v.tag.equals("false")) {
+                v.tag = "true"
+                coinListAdapter.sortByCoinName(false)
+            } else {
+                v.tag = "false"
+                coinListAdapter.sortByCoinName(true)
+            }
+        } else if (v?.id == R.id.tv_transaction_amount) {
+            if (v.tag.equals("false")) {
+                v.tag = "true"
+                coinListAdapter.sortByCoinAmount(false)
+            } else {
+                v.tag = "false"
+                coinListAdapter.sortByCoinAmount(true)
+            }
+        }
     }
 }
+

@@ -77,6 +77,7 @@
             android:orientation="horizontal" />
 
         <RelativeLayout
+            android:id="@+id/layout_coin_details"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_below="@+id/layout_top_division"
@@ -88,6 +89,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/image_description"
                 android:src="@drawable/ic_baseline_default_icon" />
 
             <LinearLayout
@@ -211,5 +213,42 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_bong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_coin_details"
+            android:gravity="end|center_vertical">
+
+            <Button
+                android:id="@+id/btn_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v)->coinDetails.requestCoinDayCandles()}"
+                android:text="@string/text_day_bong" />
+
+            <Button
+                android:id="@+id/btn_weeks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v)->coinDetails.requestCoinWeeksCandles()}"
+                android:text="@string/text_weeks_bong" />
+
+            <Button
+                android:id="@+id/btn_months"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v)->coinDetails.requestCoinMonthCandles()}"
+                android:text="@string/text_month_bong" />
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.CandleStickChart
+            android:id="@+id/chart_coin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/layout_bong"
+            android:layout_margin="10dp" />
+
     </RelativeLayout>
 </layout>

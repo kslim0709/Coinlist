@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+    // Call Coin, CoinTicker ( 시세 ), CoinExplain ( 코인 설명 )
     private fun initCoinData() {
         mCompositeDisposable.add(
             DataManager.getInstance().getAllCoinList()
@@ -73,15 +74,11 @@ class SplashActivity : AppCompatActivity() {
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ coinMetadata ->
-                    Log.v(TAG, "receive complete: ${coinMetadata.toString()}")
-
-                    //startMainActivity()
+                .subscribe({
+                    // Log.v(TAG, "receive complete: ${coinMetadata.toString()}")
+                    startMainActivity()
                 }, {
                     Log.e(TAG, "receive Exception ${it.message}")
-                }, {
-                    Log.v(TAG, "onComplete")
-                    startMainActivity()
                 })
         )
     }

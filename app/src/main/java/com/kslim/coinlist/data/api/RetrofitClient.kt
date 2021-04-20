@@ -1,4 +1,4 @@
-package com.kslim.coinlist.data
+package com.kslim.coinlist.data.api
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

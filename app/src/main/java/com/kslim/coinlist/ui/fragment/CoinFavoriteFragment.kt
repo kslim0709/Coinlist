@@ -1,7 +1,6 @@
 package com.kslim.coinlist.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,9 @@ import com.kslim.coinlist.R
 import com.kslim.coinlist.databinding.FragmentCoinFavoriteBinding
 import com.kslim.coinlist.ui.adapter.CoinFavoriteListAdapter
 import com.kslim.coinlist.ui.viewmodel.SharedViewModel
-import com.kslim.coinlist.utils.Constants
 
 class CoinFavoriteFragment : Fragment() {
-
+    @Suppress("UNCHECKED_CAST")
     private val sharedViewModel: SharedViewModel by activityViewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T = SharedViewModel() as T
@@ -30,9 +28,6 @@ class CoinFavoriteFragment : Fragment() {
     private lateinit var favoriteCoinListAdapter: CoinFavoriteListAdapter
     private lateinit var favoriteCoinRecyclerView: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +47,7 @@ class CoinFavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.v(Constants.TAG_MAIN, "Favorite onViewCreated")
+        //Log.v(Constants.TAG_MAIN, "Favorite onViewCreated")
         favoriteCoinListAdapter = CoinFavoriteListAdapter()
         favoriteCoinRecyclerView = favoriteCoinBinding.recyclerFavoriteCoinTicker
 
@@ -66,21 +61,5 @@ class CoinFavoriteFragment : Fragment() {
             favoriteCoinListAdapter.searchFilterList(it)
         })
         sharedViewModel.getAllFavoriteCoinList()
-    }
-
-    override fun onPause() {
-        Log.v(Constants.TAG_MAIN, "Favorite onPause")
-        super.onPause()
-    }
-
-    override fun onResume() {
-        Log.v(Constants.TAG_MAIN, "Favorite onResume")
-
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        Log.v(Constants.TAG_MAIN, "Favorite onDestroy")
-        super.onDestroy()
     }
 }

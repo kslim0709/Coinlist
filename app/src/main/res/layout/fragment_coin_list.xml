@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/ic_item_coin_head"
             layout="@layout/item_coin_head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

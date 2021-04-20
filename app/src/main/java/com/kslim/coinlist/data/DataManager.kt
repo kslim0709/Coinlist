@@ -1,6 +1,7 @@
 package com.kslim.coinlist.data
 
 import com.kslim.coinlist.CoinListApp
+import com.kslim.coinlist.data.api.RetrofitClient
 import com.kslim.coinlist.data.db.CoinDatabase
 import com.kslim.coinlist.data.model.*
 import com.kslim.coinlist.utils.API
@@ -48,6 +49,18 @@ class DataManager private constructor() {
 
     fun getCoinPickerList(markets: String): Observable<List<CoinTicker>> {
         return upbitDao.requestCoinTickerList(markets)
+    }
+
+    fun getCoinDayCandlesData(market: String, count: Int): Observable<List<CoinCandle>> {
+        return upbitDao.requestCoinDayCandlesData(market, count)
+    }
+
+    fun getCoinWeeksCandlesData(market: String, count: Int): Observable<List<CoinCandle>> {
+        return upbitDao.requestCoinWeeksCandlesData(market, count)
+    }
+
+    fun getCoinMonthCandlesData(market: String, count: Int): Observable<List<CoinCandle>> {
+        return upbitDao.requestCoinMonthCandlesData(market, count)
     }
 
     // CoinMarketCap Api Call

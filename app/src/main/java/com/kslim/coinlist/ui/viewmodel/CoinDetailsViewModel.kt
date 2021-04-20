@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kslim.coinlist.data.DataManager
+import com.kslim.coinlist.data.model.CoinCandle
 import com.kslim.coinlist.data.model.CoinInformation
 import com.kslim.coinlist.data.model.CoinTicker
 import com.kslim.coinlist.utils.Constants
@@ -17,6 +18,10 @@ class CoinDetailsViewModel : ViewModel() {
 
     private var dataManager: DataManager = DataManager.getInstance()
     private var mCompositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    private val _coinDayCandles = MutableLiveData<List<CoinCandle>>()
+    val coinDayCandles: LiveData<List<CoinCandle>>
+        get() = _coinDayCandles
 
     private val _coinTickerList = MutableLiveData<List<CoinTicker>>()
     val coinTickerList: LiveData<List<CoinTicker>>
@@ -33,15 +38,66 @@ class CoinDetailsViewModel : ViewModel() {
 
     fun requestAllCoinTicker(ticker: String) {
         mCompositeDisposable.add(dataManager.getCoinPickerList(ticker)
-            .repeatWhen { complete -> complete.delay(1, TimeUnit.MINUTES) }
+            .repeatWhen { complete -> complete.delay(Constants.REPEAT_TIME, TimeUnit.MINUTES) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i(Constants.TAG_MAIN, "requestAllCoinTicker: $it")
+                // Log.i(Constants.TAG_DETAILS, "requestAllCoinTicker: $it")
                 _coinTickerList.postValue(it)
             }, {
-                Log.e(Constants.TAG_MAIN, "requestAllCoinTicker Exception: ${it.message}")
+                Log.e(Constants.TAG_DETAILS, "requestAllCoinTicker Exception: ${it.message}")
             })
+        )
+    }
+
+    fun requestCoinDayCandlesData(market: String, count: Int) {
+        mCompositeDisposable.add(
+            dataManager.getCoinDayCandlesData(market, count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    // Log.i(Constants.TAG_DETAILS, "requestCoinDayCandlesData: $it")
+                    _coinDayCandles.postValue(it)
+                }, {
+                    Log.e(
+                        Constants.TAG_DETAILS,
+                        "requestCoinDayCandlesData Exception: ${it.message}"
+                    )
+                })
+        )
+    }
+
+    fun requestCoinWeeksCandlesData(market: String, count: Int) {
+        mCompositeDisposable.add(
+            dataManager.getCoinWeeksCandlesData(market, count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    // Log.i(Constants.TAG_DETAILS, "requestCoinDayCandlesData: $it")
+                    _coinDayCandles.postValue(it)
+                }, {
+                    Log.e(
+                        Constants.TAG_DETAILS,
+                        "requestCoinDayCandlesData Exception: ${it.message}"
+                    )
+                })
+        )
+    }
+
+    fun requestCoinMonthCandlesData(market: String, count: Int) {
+        mCompositeDisposable.add(
+            dataManager.getCoinMonthCandlesData(market, count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    //Log.i(Constants.TAG_DETAILS, "requestCoinDayCandlesData: $it")
+                    _coinDayCandles.postValue(it)
+                }, {
+                    Log.e(
+                        Constants.TAG_DETAILS,
+                        "requestCoinDayCandlesData Exception: ${it.message}"
+                    )
+                })
         )
     }
 

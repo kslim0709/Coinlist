@@ -1,8 +1,9 @@
+@file:Suppress("DEPRECATED_ANNOTATION")
+
 package com.kslim.coinlist.data.model
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -110,4 +111,17 @@ data class CoinExplain(
     val symbol: String,
     val slug: String,
     val description: String
+)
+
+
+// Candles VO
+data class CoinCandle(
+    @SerializedName("market") val market: String,
+    @SerializedName("candle_date_time_utc") val candleDateTimeUtc: String,
+    @SerializedName("candle_date_time_kst") val candleDateTimeKst: String,
+    @SerializedName("opening_price") val openingPrice: Double,
+    @SerializedName("high_price") val highPrice: Double,
+    @SerializedName("low_price") val lowPrice: Double,
+    @SerializedName("trade_price") val tradePrice: Double,
+    @SerializedName("timestamp") val timestamp: Long
 )

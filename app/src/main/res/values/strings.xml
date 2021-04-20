@@ -16,5 +16,9 @@
 
     <string name="text_bitcoin_price">비트코인 시세</string>
 
-    <string name="text_progress_loading">로딩 중...</string>
+    <string name="text_day_bong">일봉</string>
+    <string name="text_weeks_bong">주봉</string>
+    <string name="text_month_bong">월봉</string>
+
+    <string name="text_progress_loading">로딩 중</string>
 </resources>

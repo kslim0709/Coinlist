@@ -45,7 +45,7 @@ class SharedViewModel : ViewModel() {
 
     fun requestAllCoinTicker(ticker: String) {
         mDisposable = dataManager.getCoinPickerList(ticker)
-            .repeatWhen { complete -> complete.delay(1, TimeUnit.MINUTES) }
+            .repeatWhen { complete -> complete.delay(Constants.REPEAT_TIME, TimeUnit.MINUTES) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -56,18 +56,6 @@ class SharedViewModel : ViewModel() {
             })
         mCompositeDisposable.add(mDisposable!!)
 
-//        mCompositeDisposable.add(
-//            dataManager.getCoinPickerList(ticker)
-//                .repeatWhen { complete -> complete.delay(1, TimeUnit.MINUTES) }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    Log.i(Constants.TAG_MAIN, "requestBitCoinTicker: ${it}")
-//                    _coinTickerList.postValue(it)
-//                }, {
-//                    Log.e(Constants.TAG_MAIN, "requestBitCoinTicker Exception: ${it.message}")
-//                })
-//        )
     }
 
     fun stopRequestAppCoinTicker() {
@@ -90,7 +78,7 @@ class SharedViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.i(Constants.TAG_MAIN, "getAllFavoriteCoinList: $it")
+                    // Log.i(Constants.TAG_MAIN, "getAllFavoriteCoinList: $it")
                     _favoriteCoinTickerList.postValue(it)
                 }, {
                     Log.e(Constants.TAG_MAIN, "getAllFavoriteCoinList Exception: ${it.message}")
@@ -104,7 +92,7 @@ class SharedViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ coinMetadata ->
-                    Log.i(Constants.TAG_MAIN, "requestCoinMetaData: $coinMetadata")
+                    // Log.i(Constants.TAG_MAIN, "requestCoinMetaData: $coinMetadata")
                     if (coinMetadata.status.errorCode == 0) {
                         val coinExplain = ArrayList<CoinExplain>()
                         coinMetadata.data.forEach {
@@ -134,7 +122,7 @@ class SharedViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.i(Constants.TAG_MAIN, "getDBAllCoinExplain: $it")
+                    //  Log.i(Constants.TAG_MAIN, "getDBAllCoinExplain: $it")
                     _explainCoinList.postValue(it)
                 }, {
                     Log.e(Constants.TAG_MAIN, "getDBAllCoinExplain Exception: ${it.message}")

@@ -41,10 +41,11 @@ class CoinListAdapter : RecyclerView.Adapter<CoinListAdapter.CoinListViewHolder>
     }
 
     override fun onBindViewHolder(holder: CoinListViewHolder, position: Int) =
-        holder.onBind(coinTickerList[position], position)
+        holder.onBind(coinTickerList[position])
 
     override fun getItemCount(): Int = coinTickerList.size
 
+    // 영어, 한글 구분하여 검색
     fun searchFilterList(filter: String) {
 
         if (coinTickerList.size > 0) coinTickerList.clear()
@@ -66,12 +67,40 @@ class CoinListAdapter : RecyclerView.Adapter<CoinListAdapter.CoinListViewHolder>
         notifyDataSetChanged()
     }
 
+    fun sortByCoinName(isSorted: Boolean) {
+
+        if (isSorted) {
+            coinTickerList.sortByDescending { it.koreanName }
+        } else {
+            coinTickerList.sortBy { it.koreanName }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun sortByCoinPrice(isSorted: Boolean) {
+        if (isSorted) {
+            coinTickerList.sortByDescending { it.tradePrice }
+        } else {
+            coinTickerList.sortBy { it.tradePrice }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun sortByCoinAmount(isSorted: Boolean) {
+        if (isSorted) {
+            coinTickerList.sortByDescending { it.accTradePrice24h }
+        } else {
+            coinTickerList.sortBy { it.accTradePrice24h }
+        }
+        notifyDataSetChanged()
+    }
+
 
     inner class CoinListViewHolder(private val coinItemBinding: ItemCoinBinding) :
         RecyclerView.ViewHolder(coinItemBinding.root) {
 
 
-        fun onBind(coinInfo: CoinInformation, position: Int) {
+        fun onBind(coinInfo: CoinInformation) {
 
             val market =
                 coinInfo.market.substring(coinInfo.market.lastIndexOf("-") + 1)
@@ -84,35 +113,12 @@ class CoinListAdapter : RecyclerView.Adapter<CoinListAdapter.CoinListViewHolder>
             coinItemBinding.tvEnName.text = coinInfo.englishName
             coinItemBinding.tvKrName.text = coinInfo.koreanName
 
-            coinItemBinding.tvCurPrice.setTextColor(ContextCompat.getColor(coinItemBinding.root.context, getColor(coinInfo.change)))
-
-//            when (coinInfo.change) {
-//                Constants.EVEN -> {
-//                    coinItemBinding.tvCurPrice.setTextColor(
-//                        ContextCompat.getColor(
-//                            coinItemBinding.root.context,
-//                            R.color.black
-//                        )
-//                    )
-//                }
-//                Constants.FALL -> {
-//                    coinItemBinding.tvCurPrice.setTextColor(
-//                        ContextCompat.getColor(
-//                            coinItemBinding.root.context,
-//                            R.color.color_00000FF
-//                        )
-//                    )
-//                }
-//                Constants.RISE -> {
-//                    coinItemBinding.tvCurPrice.setTextColor(
-//                        ContextCompat.getColor(
-//                            coinItemBinding.root.context,
-//                            R.color.color_FF0000
-//                        )
-//                    )
-//                }
-//            }
-
+            coinItemBinding.tvCurPrice.setTextColor(
+                ContextCompat.getColor(
+                    coinItemBinding.root.context,
+                    getColor(coinInfo.change)
+                )
+            )
 
             coinItemBinding.tvCurPrice.text = coinInfo.tradePrice.numberFormat(0)
             coinItemBinding.tvTransactionAmount.text =

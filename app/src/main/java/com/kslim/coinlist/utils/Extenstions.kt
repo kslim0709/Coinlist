@@ -1,10 +1,8 @@
 package com.kslim.coinlist.utils
 
-import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import androidx.core.content.ContextCompat
 import com.kslim.coinlist.R
 import java.text.DecimalFormat
 
@@ -44,3 +42,4 @@ fun getColor(change: String): Int {
         else -> R.color.black
     }
 }
+

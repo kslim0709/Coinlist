@@ -1,7 +1,6 @@
 package com.kslim.coinlist.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mainDataBinding: ActivityMainBinding
 
+    @Suppress("UNCHECKED_CAST")
     private val sharedViewModel: SharedViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T = SharedViewModel() as T
@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Log.v("Main", "onResume")
         sharedViewModel.requestAllCoinTicker(Constants.BTC_TICKER)
         super.onResume()
     }
@@ -111,13 +110,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         sharedViewModel.stopRequestAppCoinTicker()
         super.onPause()
-        Log.v("Main", "onPause")
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.v("Main", "onDestroy")
     }
 }
 

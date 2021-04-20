@@ -48,7 +48,7 @@ class CoinDataSet private constructor() {
                             coinTicker.accTradePrice24h
                         )
                     )
-                    break;
+                    break
                 }
             }
         }
